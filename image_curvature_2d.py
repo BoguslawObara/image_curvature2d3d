@@ -22,7 +22,7 @@ def plot_curv2d(im):
 
   # hide axis
   plt.axis('off')
-  plt.savefig('./im/macular_hole_curv_2d.png', bbox_inches='tight', pad_inches=0)
+  # plt.savefig('./im/macular_hole_curv_2d.png', bbox_inches='tight', pad_inches=0)
 
   # show
   plt.show()
@@ -38,7 +38,7 @@ def plot2d(im):
 
   # hide axis
   plt.axis('off')
-  plt.savefig('./im/macular_hole_2d.png', bbox_inches='tight', pad_inches=0)
+  # plt.savefig('./im/macular_hole_2d.png', bbox_inches='tight', pad_inches=0)
 
   # show
   plt.show()
@@ -119,7 +119,7 @@ if __name__ == '__main__':
   # im = disk_image2d()
   # im = rectangle_image2d()
 
-  # read images
+  # load image
   im = io.imread('./im/macular_hole_3d.tif')
   im = np.moveaxis(im, 0, -1)
   im = invert(im)

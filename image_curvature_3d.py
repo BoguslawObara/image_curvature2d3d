@@ -43,7 +43,7 @@ def plot_curv3d(im, imw):
 
   # hide axis
   plt.axis('off')
-  plt.savefig('./im/macular_hole_curv_3d.png', bbox_inches='tight', pad_inches=0)
+  # plt.savefig('./im/macular_hole_curv_3d.png', bbox_inches='tight', pad_inches=0)
 
   # show
   plt.tight_layout()
@@ -63,7 +63,7 @@ def plot_curv2d(im):
 
   # hide axis
   plt.axis('off')
-  plt.savefig('./im/macular_hole_curv_3d_2d.png', bbox_inches='tight', pad_inches=0)
+  # plt.savefig('./im/macular_hole_curv_3d_2d.png', bbox_inches='tight', pad_inches=0)
 
   # show
   plt.show()
@@ -79,7 +79,7 @@ def plot2d(im):
 
   # hide axis
   plt.axis('off')
-  plt.savefig('./im/macular_hole_3d_2d.png', bbox_inches='tight', pad_inches=0)
+  # plt.savefig('./im/macular_hole_3d_2d.png', bbox_inches='tight', pad_inches=0)
 
   # show
   plt.show()
@@ -166,7 +166,7 @@ if __name__ == '__main__':
   # im = cube_image3d()
   # im = ellipsoid_image3d()
 
-  # read images
+  # load image
   im = io.imread('./im/macular_hole_3d.tif')
   im = np.moveaxis(im, 0, -1)
   im = invert(im)
