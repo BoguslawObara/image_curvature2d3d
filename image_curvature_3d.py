@@ -107,7 +107,7 @@ def mean_curv3d(im, s=3, r=np.array([1,1,1])):
   k = ellipsoid(s*r[0], s*r[1], s*r[2])
   k = k/np.sum(k)
   imcurv = convolve(imd, k)
-  imcurv_b = imcurv
+  imcurv_b = imcurv.copy()
   imcurv_b[invert(imb)] = 0
 
   return imcurv_b, imcurv
@@ -129,7 +129,7 @@ def gauss_curv3d(im, s=3, r=np.array([1,1,1])):
 
   # mean curvature
   imcurv = gaussian_filter(imd, r*s)
-  imcurv_b = imcurv
+  imcurv_b = imcurv.copy()
   imcurv_b[invert(imb)] = 0
 
   return imcurv_b, imcurv
