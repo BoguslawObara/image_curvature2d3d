@@ -88,11 +88,25 @@ def ellipsoid(a, b, c):
   e = draw.ellipsoid(a, b, c).astype(int)
   return e[1:-1,1:-1,1:-1]
 
+def mean_curv_fast3d(im, s=3, r=np.array([1,1,1]), c=1):
+  # boundary
+  ime = erosion(im, ellipsoid(r[0], r[1], r[2]))
+  imb = np.logical_xor(im, ime)
+
+  # mean curvature
+  k = ellipsoid(s*r[0], s*r[1], s*r[2])
+  k = k/np.sum(k)
+  imd = 2*invert(im.astype(float))-c
+  imcurv = convolve(imd, k)
+  imcurv_b = imcurv.copy()
+  imcurv_b[invert(imb)] = 0
+
+  return imcurv_b, imcurv
+
 def mean_curv3d(im, s=3, r=np.array([1,1,1])):
   # boundary
   ime = erosion(im, ellipsoid(r[0], r[1], r[2]))
-  imb = im.copy()
-  imb[ime] = 0
+  imb = np.logical_xor(im, ime)
 
   # distance - positive
   imdp = distance_transform_edt(invert(im), sampling=r)
@@ -173,10 +187,11 @@ if __name__ == '__main__':
 
   # curvature
   # imcurv, imcurv_f = gauss_curv3d(im, s=10, r=np.array([1,1,1/5]))
-  imcurv, imcurv_f = mean_curv3d(im, s=10, r=np.array([1,1,1/5]))
+  # imcurv, imcurv_f = mean_curv3d(im, s=10, r=np.array([1,1,1/5]))
+  imcurv, imcurv_f = mean_curv_fast3d(im, s=10, r=np.array([1,1,1/5]))
 
   # display
   z = 25
-  plot2d(im[:,:,z])
+  #plot2d(im[:,:,z])
   plot_curv2d(imcurv[:,:,z])
   # plot_curv3d(im, imcurv_f)

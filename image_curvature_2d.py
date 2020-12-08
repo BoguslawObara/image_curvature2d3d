@@ -43,11 +43,24 @@ def plot2d(im):
   # show
   plt.show()
 
+def mean_curv_fast2d(im, s=3, r=np.array([1,1]), c=1):
+  # boundary
+  ime = erosion(im, selem.ellipse(r[0], r[1]))
+  imb = np.logical_xor(im, ime)
+
+  # mean curvature
+  k = selem.ellipse(s*r[0], s*r[1])
+  k = k/np.sum(k)
+  imd = 2*invert(im.astype(float))-c
+  imcurv = convolve(imd, k)
+  imcurv[invert(imb)] = 0
+
+  return imcurv
+
 def mean_curv2d(im, s=3, r=np.array([1,1])):
   # boundary
   ime = erosion(im, selem.ellipse(r[0], r[1]))
-  imb = im.copy()
-  imb[ime] = 0
+  imb = np.logical_xor(im, ime)
 
   # distance - positive
   imdp = distance_transform_edt(invert(im), sampling=r)
@@ -69,8 +82,7 @@ def mean_curv2d(im, s=3, r=np.array([1,1])):
 def gauss_curv2d(im, s=3, r=np.array([1,1])):
   # boundary
   ime = erosion(im, selem.ellipse(r[0], r[1]))
-  imb = im.copy()
-  imb[ime] = 0
+  imb = np.logical_xor(im, ime)
 
   # distance - positive
   imdp = distance_transform_edt(invert(im), sampling=r)
@@ -128,8 +140,9 @@ if __name__ == '__main__':
 
   # curvature
   # imcurv = gauss_curv2d(im)
-  imcurv = mean_curv2d(im)
+  # imcurv = mean_curv2d(im)
+  imcurv = mean_curv_fast2d(im)
 
   # display
-  plot2d(im)
+  # plot2d(im)
   plot_curv2d(imcurv)
